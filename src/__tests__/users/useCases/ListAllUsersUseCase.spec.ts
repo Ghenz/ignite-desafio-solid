@@ -31,20 +31,11 @@ describe("ListAllUsersUseCase", () => {
       email: "dogim@rocketseat.com",
     });
 
-    usersRepository.turnAdmin(user1);
+    const updatedUser1 = usersRepository.turnAdmin(user1);
 
-    const users = listAllUsersUseCase.execute({ user_id: user1.id });
+    const users = listAllUsersUseCase.execute({ user_id: updatedUser1.id });
 
-    expect(users).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          name: "Danilo Vieira",
-          email: "danilo@rocketseat.com",
-        }),
-        user2,
-        user3,
-      ])
-    );
+    expect(users).toEqual(expect.arrayContaining([user1, user2, user3]));
   });
 
   it("should not be able to a non admin user get list of all users", () => {
